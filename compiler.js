@@ -8,6 +8,7 @@ const verbose = (parse) => {
     return util.inspect(parse, {depth: null})
 }
 
+//~60 distinct "words/phrases"
 class ActionMap {
     constructor() {
         this.Program = (body) => {
@@ -24,11 +25,18 @@ class ActionMap {
         this.ImportDeclaration = (node) => {
             //specifiers: ImportSpecifier[];
             //source: Literal;
-            //interface ImportSpecifier {
-            //    type: 'ImportSpecifier' | 'ImportDefaultSpecifier' | 'ImportNamespaceSpecifier';
+        }
+        this.ImportSpecifier = (node) => {
             //    local: Identifier;
             //    imported?: Identifier;
-            //}
+        }
+        this.ImportDefaultSpecifier = (node) => {
+            //    local: Identifier;
+            //    imported?: Identifier;
+        }
+        this.ImportNamespaceSpecifier = (node) => {
+            //    local: Identifier;
+            //    imported?: Identifier;
         }
         this.ExportAllDeclaration = (node) => {
             //source: Literal;
@@ -42,11 +50,10 @@ class ActionMap {
             //declaration: ClassDeclaration | FunctionDeclaration | VariableDeclaration;
             //specifiers: ExportSpecifier[];
             //source: Literal;
-            //interface ExportSpecifier {
-            //    type: 'ExportSpecifier';
+        }
+        this.ExportSpecifier = (node) => {
             //    exported: Identifier;
             //    local: Identifier;
-            //};
         }
         this.ArrayPattern = (node) => {
             //elements: ArrayPatternElement[];
@@ -111,32 +118,28 @@ class ActionMap {
             //id: Identifier | null;
             //superClass: Identifier | null;
             //body: ClassBody;
-            //interface ClassBody {
-            //    type: 'ClassBody';
+        }
+        this.ClassBody = (node) => {
             //    body: MethodDefinition[];
-            //}
-            //interface MethodDefinition {
-            //    type: 'MethodDefinition';
+        }
+        this.MethodDefinition = (node) => {
             //    key: Expression | null;
             //    computed: boolean;
             //    value: FunctionExpression | null;
             //    kind: 'method' | 'constructor';
             //    static: boolean;
-            //}
         }
         this.TaggedTemplateExpression = (node) => {
             //readonly tag: Expression;
             //readonly quasi: TemplateLiteral;
-            //interface TemplateElement {
-            //    type: 'TemplateElement';
+        }
+        this.TemplateElement = (node) => {
             //    value: { cooked: string; raw: string };
             //    tail: boolean;
-            //}
-            //interface TemplateLiteral {
-            //    type: 'TemplateLiteral';
+        }
+        this.TemplateLiteral = (node) => {
             //    quasis: TemplateElement[];
             //    expressions: Expression[];
-            //}
         }
         this.MemberExpression = (node) => {
             //computed: boolean;
@@ -164,17 +167,14 @@ class ActionMap {
         }
         this.NewExpression = (node) => {
             //callee: Expression;
-            //arguments: ArgumentListElement[];
-            //interface Import {
-            //    type: 'Import';
-            //}
-            
+            //arguments: ArgumentListElement[];            
             //type ArgumentListElement = Expression | SpreadElement;
-            
-            //interface SpreadElement {
-            //    type: 'SpreadElement';
+        }
+        this.Import = (node) => {
+            //none
+        }
+        this.SpreadElement = (node) => {
             //    argument: Expression;
-            //}
         }
         this.UpdateExpression = (node) => {
             //operator: '++' | '--';
@@ -264,14 +264,6 @@ class ActionMap {
             //right: Expression;
             //body: Statement;
         }
-        this.FunctionDeclaration = (node) => {
-            //id: Identifier | null;
-            //params: FunctionParameter[];
-            //body: BlockStatement;
-            //generator: boolean;
-            //async: boolean;
-            //expression: false;
-        }
         this.IfStatement = (node) => {
             //test: Expression;
             //consequent: Statement;
@@ -287,11 +279,10 @@ class ActionMap {
         this.SwitchStatement = (node) => {
             //discriminant: Expression;
             //cases: SwitchCase[];
-            //interface SwitchCase {
-            //    type: 'SwitchCase';
+        }
+        this.SwitchCase = (node) => {
             //    test: Expression | null;
             //    consequent: Statement[];
-            //}
         }
         this.ThrowStatement = (node) => {
             //argument: Expression;
@@ -300,11 +291,10 @@ class ActionMap {
             //block: BlockStatement;
             //handler: CatchClause | null;
             //finalizer: BlockStatement | null;
-            //interface CatchClause {
-            //    type: 'CatchClause';
+        }
+        this.CatchClause = (node) => {
             //    param: Identifier | BindingPattern;
             //    body: BlockStatement;
-            //}
         }
         this.WhileStatement = (node) => {
             //test: Expression;
@@ -318,6 +308,14 @@ class ActionMap {
             //id: Identifier | null;
             //superClass: Identifier | null;
             //body: ClassBody;
+        }
+        this.FunctionDeclaration = (node) => {
+            //id: Identifier | null;
+            //params: FunctionParameter[];
+            //body: BlockStatement;
+            //generator: boolean;
+            //async: boolean;
+            //expression: false;
         }
         this.VariableDeclaration = (node) => {
             //declarations: VariableDeclarator[];
@@ -339,7 +337,7 @@ class ActionMap {
 const parse = esprima.parseScript(jscode)
 
 fs.writeFileSync('./parselog.js', verbose(parse))
-let gencode = "";
+let gencode = "The Source Hasn't Budged";
 
 const actionmap = new ActionMap()
 actionmap[parse.type](parse.body)
