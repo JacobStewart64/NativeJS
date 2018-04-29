@@ -1,3 +1,5 @@
+Wow I have a lot to write! Traverse .1% progress lol.
+
 A compiler that compiles JS to C++
 
 Should lead to very portable native code written in JS.
@@ -12,3 +14,8 @@ Why work in C++ for native projects when you can get the ease of use of JS/Html/
 
 Great Book about writing compilers! "The Dragon Book." Kanye is pleased.
 http://www.informatik.uni-bremen.de/agbkb/lehre/ccfl/Material/ALSUdragonbook.pdf
+
+
+esprima node types
+
+http://esprima.readthedocs.io/en/latest/syntax-tree-format.html
