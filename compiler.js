@@ -766,3 +766,8 @@ const traversalmap = new SyntaxTreeTraverser()
 traversalmap[parse.type](parse.body)
 
 console.log(gencode);
+
+console.log(console)
+Object.keys(console).forEach((key) => {
+    console.log(key, console[key].toString())
+})

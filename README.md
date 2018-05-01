@@ -1,4 +1,4 @@
-Wow I have a lot to write! Traverse .1% progress lol.
+Traversal 99.9% done (not 100% sure it's perfect) Dev stalled as I must read the Dragon Book to continue forward best.
 
 A compiler that compiles JS to C++
 
